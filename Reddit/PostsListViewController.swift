@@ -18,10 +18,21 @@ class PostsListViewController: UIViewController {
         
         tableView.register(UINib(nibName: Constants.cellIndetifier, bundle: nil), forCellReuseIdentifier: Constants.cellIndetifier)
     }
-    
-    
+}
 
+  //MARK: - UITableViewDataSourse
 
+extension PostsListViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIndetifier) as! PostCell
+        
+        return cell
+    }
 }
 
 extension PostsListViewController {
