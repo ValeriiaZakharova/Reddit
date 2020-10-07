@@ -12,14 +12,19 @@ class PostCell: UITableViewCell {
     
     //MARK: - Outlets
     
-    @IBOutlet weak var dateofPostLabel: UILabel!
+    @IBOutlet weak var groupnameLabel: UILabel!
+    
+    @IBOutlet weak var authorLabel: UILabel!
+    
+    @IBOutlet weak var timeagoLabel: UILabel!
     
     @IBOutlet weak var titleLabel: UILabel!
     
-    @IBOutlet weak var commentsLabel: UILabel!
+    @IBOutlet weak var commentsCountLabel: UILabel!
+    
+    @IBOutlet weak var likeCountLabel: UILabel!
     
     @IBOutlet weak var contentImageView: UIImageView!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,4 +35,8 @@ class PostCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
+    @IBAction func getFullPic(_ sender: UIButton) {
+        
+    }
+    
 }

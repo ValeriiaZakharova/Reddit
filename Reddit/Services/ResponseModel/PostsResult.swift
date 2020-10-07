@@ -9,17 +9,13 @@
 import Foundation
 
 struct PostsResult: Decodable {
-    var data: Data
+    var data: DataD
 }
 
-extension PostsResult {
-    struct Data: Decodable {
-        var children: [Child]
-    }
+struct DataD: Decodable {
+    var children: [Child]
 }
 
-extension PostsResult.Data {
-    struct Child: Decodable {
-        var data: PostModel
-    }
+struct Child: Decodable {
+    var data: PostModel
 }

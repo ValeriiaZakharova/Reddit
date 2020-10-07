@@ -16,11 +16,9 @@ final class PostsServiceImpl: PostsService {
     
     func fetchPosts(completion: @escaping ([PostModel], Error?) -> Void) {
         
-        guard let url = URL(string: "https://www.reddit.com/top") else {return}
+        guard let url = URL(string: "https://www.reddit.com/top.json") else {return}
         
-        let session = URLSession.shared
-        
-        session.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             
             if let response = response {
                 print(response)
@@ -33,8 +31,12 @@ final class PostsServiceImpl: PostsService {
                 return
             }
             
+            //let jsonInfo = String(data: data, encoding: .utf8)
+            
             do {
                 let result = try JSONDecoder().decode(PostsResult.self, from: data)
+                  print(result)
+             
                 DispatchQueue.main.async {
                     completion(result.data.children.map({ (post) -> PostModel in
                         post.data
@@ -48,9 +50,6 @@ final class PostsServiceImpl: PostsService {
         }.resume()
     }
 }
-
-
-
 
 
 
