@@ -103,9 +103,9 @@
 			children = (
 				CF1E9FCF24FE772500906F58 /* Services */,
 				CF1E9FCA24FE5B7700906F58 /* cell */,
+				CFB9BBB524C72AA900B655D1 /* PostsListViewController.swift */,
 				CFB9BBB124C72AA900B655D1 /* AppDelegate.swift */,
 				CFB9BBB324C72AA900B655D1 /* SceneDelegate.swift */,
-				CFB9BBB524C72AA900B655D1 /* PostsListViewController.swift */,
 				CFB9BBB724C72AA900B655D1 /* Main.storyboard */,
 				CFB9BBBA24C72AAB00B655D1 /* Assets.xcassets */,
 				CFB9BBBC24C72AAB00B655D1 /* LaunchScreen.storyboard */,
