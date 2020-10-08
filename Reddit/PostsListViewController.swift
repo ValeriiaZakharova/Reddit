@@ -9,7 +9,7 @@
 import UIKit
 
 class PostsListViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     var service: PostsService = PostsServiceImpl()
@@ -18,12 +18,13 @@ class PostsListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        tableView.register(UINib(nibName: Constants.cellIndetifier, bundle: nil), forCellReuseIdentifier: Constants.cellIndetifier)
         
+        tableView.register(UINib(nibName: Constants.cellIndetifier, bundle: nil), forCellReuseIdentifier: Constants.cellIndetifier)
+        tableView.rowHeight = UITableView.automaticDimension
         getPosts()
+        
     }
-   
+    
     //MARK: - Private
     
     private func getPosts() {
@@ -39,7 +40,7 @@ class PostsListViewController: UIViewController {
         }
     }
     
-    func showError(_ error: String) {
+    private func showError(_ error: String) {
         let alertController = UIAlertController()
         alertController.message = error
         alertController.addAction(.init(title: "OK", style: .cancel, handler: nil))
@@ -48,7 +49,7 @@ class PostsListViewController: UIViewController {
     
 }
 
-  //MARK: - UITableViewDataSourse
+//MARK: - UITableViewDataSourse
 
 extension PostsListViewController: UITableViewDataSource {
     
@@ -58,16 +59,15 @@ extension PostsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIndetifier) as! PostCell
+        cell.delegate = self
         let post = posts[indexPath.row]
         cell.authorLabel.text = post.author
         cell.groupnameLabel.text = post.subreddit
-        cell.commentsCountLabel.text = String(post.comentsAmount) //= (post.comentsAmount.flatMap {String($0)} ) ?? ""
-        cell.likeCountLabel.text = String(post.score)//= post.score.flatMap({ (score) -> String in
-            //String(score)
-        //}) ?? ""
+        cell.scoreButton.setTitle(String(post.score), for: .normal)
+        cell.commentsButton.setTitle(String(post.comentsAmount), for: .normal)
         cell.titleLabel.text = post.title
         
-        if let url = URL(string: post.thumbnail) {
+        if let url = URL(string: post.url) {
             DispatchQueue.global().async {
                 do {
                     let data = try Data(contentsOf: url)
@@ -82,6 +82,44 @@ extension PostsListViewController: UITableViewDataSource {
         }
         
         return cell
+    }
+}
+
+//MARK: - UITableViewDelegate
+
+extension PostsListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}
+
+//MARK: - PostCellDelegate
+
+extension PostsListViewController: PostCellDelegate {
+    
+    func commentsTapped(cell: PostCell, button: UIButton) {
+        guard let indexPath = tableView.indexPath(for: cell) else {return}
+        let post = posts[indexPath.row]
+        
+        button.setTitle(String(post.author), for: .normal)
+        //button.titleLabel?.text = String(post.comentsAmount)
+    }
+    
+    func getFullPic(cell: PostCell) {}
+    
+    func awardTapped(cell: PostCell) {}
+    
+    func shareTapped(cell: PostCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {return}
+        let post = posts[indexPath.row]
+        let items = [post.url]
+        let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        //        ac.isModalInPresentation = true
+        present(ac, animated: true)
+    }
+    
+    func scoreTapped(cell: PostCell) {
+        
     }
 }
 
