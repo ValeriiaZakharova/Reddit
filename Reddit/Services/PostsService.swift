@@ -31,8 +31,6 @@ final class PostsServiceImpl: PostsService {
                 return
             }
             
-            //let jsonInfo = String(data: data, encoding: .utf8)
-            
             do {
                 let result = try JSONDecoder().decode(PostsResult.self, from: data)
                   print(result)
