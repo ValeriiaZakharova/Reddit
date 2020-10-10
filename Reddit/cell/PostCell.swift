@@ -44,7 +44,15 @@ class PostCell: UITableViewCell {
     }
 
     override func prepareForReuse() {
-        
+        groupnameLabel.text = nil
+        authorLabel.text = nil
+        timeagoLabel.text = nil
+        titleLabel.text = nil
+        contentImageView.image = nil
+        userAvatarImageView.image = nil
+        scoreButton.setTitle(nil, for: .normal)
+        commentsButton.setTitle(nil, for: .normal)
+        commentsButton.setTitle(nil, for: .normal)
     }
     
 

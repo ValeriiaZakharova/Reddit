@@ -11,10 +11,10 @@ import Foundation
 struct PostModel: Decodable {
     let subreddit: String
     let author: String
-    let score: Int //?
+    let score: Int
     let title: String
     let comentsAmount: Int
-    let thumbnail: String //?
+    let thumbnail: String
     let url: String
     
     enum CodingKeys: String, CodingKey {

@@ -13,8 +13,10 @@ class PostsListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var service: PostsService = PostsServiceImpl()
+    var userService: UserService = UserServiceImp()
     
     var posts: [PostModel] = []
+    var users: [SubredditModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +24,7 @@ class PostsListViewController: UIViewController {
         tableView.register(UINib(nibName: Constants.cellIndetifier, bundle: nil), forCellReuseIdentifier: Constants.cellIndetifier)
         tableView.rowHeight = UITableView.automaticDimension
         getPosts()
-        
+        //        getUsers()
     }
     
     //MARK: - Private
@@ -40,13 +42,24 @@ class PostsListViewController: UIViewController {
         }
     }
     
+    //    private func getUsers() {
+    //        userService.getUser { [weak self] (users, error) in
+    //            guard let self = self else {return}
+    //            if let error = error {
+    //                self.showError(error.localizedDescription)
+    //                print(error)
+    //            } else {
+    //                self.users = users
+    //                self.tableView.reloadData()
+    //            }
+    //        }
+    //    }
     private func showError(_ error: String) {
         let alertController = UIAlertController()
         alertController.message = error
         alertController.addAction(.init(title: "OK", style: .cancel, handler: nil))
         present(alertController, animated: true)
     }
-    
 }
 
 //MARK: - UITableViewDataSourse
@@ -61,6 +74,7 @@ extension PostsListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIndetifier) as! PostCell
         cell.delegate = self
         let post = posts[indexPath.row]
+        //        let user = users[indexPath.row]
         cell.authorLabel.text = post.author
         cell.groupnameLabel.text = post.subreddit
         cell.scoreButton.setTitle(String(post.score), for: .normal)
@@ -81,6 +95,20 @@ extension PostsListViewController: UITableViewDataSource {
             }
         }
         
+        //        if let url = URL(string:  {
+        //            DispatchQueue.global().async {
+        //                do {
+        //                    let data = try Data(contentsOf: url)
+        //                    let image = UIImage(data: data)
+        //                    DispatchQueue.main.async {
+        //                        cell.userAvatarImageView.image = image
+        //                    }
+        //                } catch {
+        //                    print(error)
+        //                }
+        //            }
+        //        }
+        
         return cell
     }
 }
@@ -97,13 +125,7 @@ extension PostsListViewController: UITableViewDelegate {
 
 extension PostsListViewController: PostCellDelegate {
     
-    func commentsTapped(cell: PostCell, button: UIButton) {
-        guard let indexPath = tableView.indexPath(for: cell) else {return}
-        let post = posts[indexPath.row]
-        
-        button.setTitle(String(post.author), for: .normal)
-        //button.titleLabel?.text = String(post.comentsAmount)
-    }
+    func commentsTapped(cell: PostCell, button: UIButton) {}
     
     func getFullPic(cell: PostCell) {}
     
@@ -114,11 +136,11 @@ extension PostsListViewController: PostCellDelegate {
         let post = posts[indexPath.row]
         let items = [post.url]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        //        ac.isModalInPresentation = true
         present(ac, animated: true)
     }
     
     func scoreTapped(cell: PostCell) {
+        cell.scoreButton.tintColor = .blue
         
     }
 }
